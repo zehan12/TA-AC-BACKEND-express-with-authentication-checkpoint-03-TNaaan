@@ -1,0 +1,20 @@
+<form action="/users/register" method="POST">
+    <div>
+        <% if ( error ) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+    </div>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" placeholder="Enter your name"><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" placeholder="Enter your email"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" placeholder="Enter your password"><br>
+    <label for="age">Age:</label><br>
+    <input type="number" id="age" name="age" placeholder="Enter your Age"><br>
+    <label for="phone">phone:</label><br>
+    <input type="tel" id="phone" name="phone" placeholder="Enter your phone"><br>
+    <label for="">Country:</label><br>
+    <input type="text" id="country" name="country" placeholder="Enter your country"><br>
+    <input type="submit" value="register">
+</form>
