@@ -1,0 +1,69 @@
+<%- include('../partials/head') %>
+<h1><a href="/users/logout">Logout</a></h1>
+<a href="/users/income/new">Add Income</a>
+<a href="/users/expense/new">Add Expense</a>
+<div>
+    <div class="filter">
+    <form action="/search/" method="GET">
+        <label for="">Filter By Income</label>
+        <select name="fincomeType" id="fincome">
+            <option value="">--select--</option>
+            <% incomeType.forEach((inc)=>{ %>
+                <option value="<%=inc%>"><%=inc%></option>
+            <% })%>        
+        </select>
+        <label for="">Filter By Expense</label>
+        <select name="fexpenseCate" id="expense">
+            <option value="">--select--</option> 
+            <% expenseCate.forEach((exp)=>{ %>
+                    <option value="<%=exp%>"><%=exp%></option>
+            <% })%>
+        </select>
+        <label for="date">ByDate</label>
+        <select name="fdate" id="date">
+            <option value="">--select--</option>
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+        </select>
+        <button type="submit">Search</button>
+</form>
+
+<div>
+    <% if ( income.length === 0 ) { %>
+        <h2>no income in list</h2>
+    <% } else { %>
+        <h2>List of income</h2>
+        <% income.forEach((inc,i)=>{ %>
+            <span><%=i+1%> <span>Income:</span><span style="color: rgb(1, 151, 26);"><%= inc.income %> </span>
+            <span><span>Source:</span><%= inc.source %> </span>
+            <span><span>Date:</span><%= inc.date.split("-").reverse().join("-") %></span><br>
+        <% }) %>
+    <% } %>
+</div>
+<div>
+    <% if ( income.length === 0 ) { %>
+        <h2>no Expense in list</h2>
+    <% } else { %>
+        <h2>List of Expense</h2>
+        <% expense.forEach((exp,i)=>{ %>
+            <span><%=i+1%> <span>Expense:</span><span style="color: red;"><%= exp.expense %> </span>
+            <span><span>Category:</span><%= exp.category %> </span><br>
+
+        <% }) %>
+    <% } %>
+</div>
+
+<div>
+    <h3>Month</h3>
+</div>
+
+<div>
+    <h3>Balance</h3>
+    <% const inc = income.reduce((acc,cv)=>acc+=cv.income,0) %>
+    <% const exp = expense.reduce((acc,cv)=>acc+=cv.expense,0) %>
+    <% if ( inc - exp > 0 ) { %>
+        <h5>income:  <%= inc %> - expense:  <%= exp %>  = Profit <span style="color:greenyellow"><%= inc - exp %></span> </h5>
+    <% } else { %>
+        <h5>income:  <%= inc %> - expense:  <%= exp %>  = Loss <span style="color:rgb(255, 141, 47)"><%= inc - exp %></span> </h5>
+    <% } %>
+</div>
