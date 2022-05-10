@@ -1,0 +1,10 @@
+<%- include('../../partials/head') %>
+<form action="/users/expense/new" method="POST">
+    <label for="expense">Expenses:</label><br>
+    <input type="number" id="expense" name="expense" placeholder="Enter your name"><br>
+    <label for="cateygory">cateygory of expense:</label><br>
+    <input type="cateygory" id="category" name="category" placeholder="Enter your category"><br>
+    <label for="start_date">Enter Date:</label><br>
+    <input type="date" id="date" name="date" placeholder="Enter your date"><br>
+    <input type="submit" value="register">
+</form>
