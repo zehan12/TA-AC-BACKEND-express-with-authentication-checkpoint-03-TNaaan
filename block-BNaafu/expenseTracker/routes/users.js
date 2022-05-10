@@ -1,10 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const User = require("../models/User");
 const Token = require("../models/token");
 const crypto = require("crypto");
 const sendEmail = require("../utils/email");
-
+const Income = require("../models/Income");
+const Expense = require("../models/Expense");
+const auth = require("../middlewares/auth");
 
 /* GET users listing. */
 //* desc        /users index
@@ -161,10 +163,78 @@ router.post( '/login', ( req, res, next ) => {
 //* desc        logout a user  
 //* route       GET /users/logout
 router.get( '/logout', ( req, res, next ) => {
+  // delete req.session;
   req.session.destroy();
   res.clearCookie( 'connect.sid' );
   console.log("USER LOGOUT")
   res.redirect( '/users/login' );
 } );
+
+//! user isAuthenticated
+router.use( auth.isUserLogged );
+
+//* desc        render income form 
+//* route       GET /users/income/new
+router.get( "/income/new", ( req, res, next ) => {
+  try {
+    console.log("user/new")
+    res.render("users/income/new");
+  } catch ( err ) {
+    return next( err )
+  }
+} );
+
+//* desc        create income Schema
+//* route       POST /users/income/new
+router.post( "/income/new", async( req, res, next ) => {
+  try {
+    console.log(req.body)
+    var userId = req.session.userId || req.session.passport.user
+    console.log(userId)
+    req.body.userId = userId;
+    if ( req.body.income == "" || req.body.source == "" || req.body.start_date == "" ) {
+      console.log( "empty" )
+      res.redirect("/users/income/new")
+    } else {
+      const inc = await Income.create(req.body);
+      const i = await Income.find();
+      res.json({data:i});
+    }
+  } catch ( err ) {
+    return next ( err );
+  }
+} )
+
+//* desc        render expense form 
+//* route       GET /users/expense/new
+router.get( "/expense/new", ( req, res, next ) => {
+  try {
+    console.log("user/new")
+    res.render("users/expense/new");
+  } catch ( err ) {
+    return next( err )
+  }
+} );
+
+//* desc        create expense Schema
+//* route       POST /users/expense/new
+router.post( "/expense/new", async( req, res, next ) => {
+  try {
+    console.log(req.body)
+    var userId = req.session.userId || req.session.passport.user
+    console.log(userId)
+    req.body.userId = userId;
+    if ( req.body.expense == "" || req.body.cateygory == "" || req.body.start_date == "" ) {
+      console.log( "empty" )
+      res.redirect("/users/expense/new")
+    } else {
+      const exp = await Expense.create(req.body);
+      const e = await Expense.find();
+      res.json({data:e});
+    }
+  } catch ( err ) {
+    return next ( err );
+  }
+} )
 
 module.exports = router;

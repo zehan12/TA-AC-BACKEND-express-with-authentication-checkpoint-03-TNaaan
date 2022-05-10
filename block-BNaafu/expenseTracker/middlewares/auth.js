@@ -1,10 +1,12 @@
 // middlewares/auth.js
 module.exports = {
     isUserLogged: (req, res, next) => {
-    var userId = req.session.passport.user || req.session.userId ;
-    if ( userId ) {
+    if ( req.session.userId ) {
         next();
-    } else {
+    } else if  ( req.session.passport.user ) {
+        next();
+    } 
+    else {
         res.redirect("/users/login");
     }
     },

@@ -1,11 +1,11 @@
 var mongoose = require("mongoose");
 const Schema = mongoose.Schema
 
-var expenseSchema = newSchema({
-    expense:{type:String,require:true},
-    cateygory:{type:String,require:true},
+var expenseSchema = new Schema({
+    expense:{type:Number,require:true},
+    category:{type:String,require:true},
     userId:{type:String,require:true},
-    start_date:String
+    date:String
 })
 
-module.exports = mongoose.model( "Income", expenseSchema );
+module.exports = mongoose.model( "Expense", expenseSchema );

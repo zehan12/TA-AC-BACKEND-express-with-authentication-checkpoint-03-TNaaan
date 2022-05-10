@@ -1,22 +1,22 @@
 require('dotenv').config();
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require("mongoose");
-var session = require("express-session");
-var flash = require("connect-flash");
-var MongoStore = require("connect-mongo")(session);
-var passport = require('passport');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require("mongoose");
+const session = require("express-session");
+const flash = require("connect-flash");
+const MongoStore = require("connect-mongo")(session);
+const passport = require('passport');
 const pass = require('./modules/passport')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
 mongoose.connect( "mongodb://localhost/expenseTracker", ( err ) => {  console.log(err ? err : "Database connected!") } );
 
-var app = express();
+const app = express();
 console.log(process.env.SECRET)
 
 // view engine setup
